@@ -2,9 +2,9 @@
 
 ### Background
 
-The nonprofit foundation Alphabet Soup wants a tool that can help it select the applicants for funding with the best chance of success in their ventures.
+The nonprofit foundation **Alphabet Soup** wants a tool that can help it select the applicants for funding with the best chance of success in their ventures.
 
-Alphabet Soup’s business team provided a CSV file containing more than 34,000 organizations that have received funding from Alphabet Soup over the years. Within this dataset are a number of columns that capture metadata about each organization, such as:
+Alphabet Soup’s business team provided a CSV file containing more than **34,000** organizations that have received funding from Alphabet Soup over the years. Within this dataset are a number of columns that capture metadata about each organization, such as:
 
 -   **EIN**  and  **NAME** — Identification columns
 -   **APPLICATION_TYPE** — Alphabet Soup application type
@@ -62,16 +62,32 @@ After all these previous steps, data can be now processed and scaled accordingly
 
 ### Compile, Train, and Evaluate the Model
 
+The model consists in a Neural Network, using `TensorFlow` and `Keras`, setting up its `Sequential` model. The following details are used for the proposed model:
+* Input layer of this Sequential model to process the different **43 features**.
+* Two hidden layers (**80 units** and **30 units**, respectively), both using `relu` as activation function.
+* Output layer using `sigmoid` as activation function.
 
--   What variable(s) are the target(s) for your model?
--   What variable(s) are the features for your model?
--   What variable(s) should be removed from the input data because they are neither targets nor features?
+After the model is created and setup complete, we proceed to compile the model using `binary_crossentropy`, optimizer set to `adam`, and metrics for `accuracy`.
 
+The model is finally trained in **100 epochs**, achieving a significant accuracy of **72.58%**.
 
-
+![Accuracy: 72.58%](./Images/accuracy_1.png)
 
 ### Optimize the Model
 
+Despite this proposed model presented a significant accuracy (**72.58%**), some further analysis could be considered in order to optimise the results, increasing the performance of the model.
+
+After a few attempts with no much improvement, some changes were considered in this model to improve its performance, as detailed below:
+
+1. In the Preprocessing of the Data, some steps were implemented
+	* The column `NAME` was not removed as initially, and the binning technique to group names with less than **50** entries to be assigned as "Other".
+	* The columns (features) `STATUS` and `SPECIAL_CONSIDERATIONS` were removed, since they split the information in 2 groups only, and not clear relationship with the target.
+	* The cutoff for the `CLASSIFICATION` column was changed from **1883** to **20**.
+	* After categorical features converted to numeric fields, the database is now listing 34299 rows accross 109 columns (**1 target** and **108 features**).
+2. In the Compiling and Training, it was used `hyperparameter` and `keras_tuner` to run all possible combinations of the proposed model, aiming to find the configuration with the best results and accuracy. The training also considering 20 epochs.
+3. Accuracy: **76.42%**
+
+![Accuracy: 76.42%%](./Images/accuracy_2.png)
 
 ## References
 
